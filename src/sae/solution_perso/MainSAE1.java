@@ -1,3 +1,5 @@
+package sae.solution_perso;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
