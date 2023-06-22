@@ -54,9 +54,9 @@ public class Main_Q5 {
                 img2.setRGB(i, j, minc.getRGB());
 
             }
-            ImageIO.write(img2, "jpg", new File("images_etudiants/testQ5.jpg"));
-
         }
+        ImageIO.write(img2, "jpg", new File("images_etudiants/testQ5.jpg"));
+
 
 
     }
