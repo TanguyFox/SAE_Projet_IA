@@ -13,50 +13,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import static sae.MapColors.getArrayMapColors;
+import static sae.MaxColorsUsed.getMaxColorsUsed2;
+
 public class MainSAE2 {
 
-
-    public static Map<Integer, Integer> getMapColors(BufferedImage img) {
-        Map<Integer, Integer> res = new HashMap<Integer, Integer>();
-
-        for (int i = 0; i < img.getWidth(); i++) {
-            for (int j = 0; j < img.getHeight(); j++) {
-                int pixel = img.getRGB(i, j);
-                int nb;
-                if (res.containsKey(pixel)) {
-                    nb = res.get(pixel) + 1;
-                } else {
-                    nb = 1;
-                }
-                System.out.println("color : "+pixel);
-                res.put(pixel, nb);
-            }
-        }
-        return res;
-
-    }
-    // methode recursive pour recuperé les ieme couleurs les plus utilisés de la map
-    public static int[] getMaxColorsUsed (int nb, Map<Integer, Integer> map, int[] res) {
-        if(nb == 0) {
-            return res;
-        }
-        Set<Integer> keys = map.keySet();
-        Random r = new Random();
-        int kmax = (int) keys.toArray()[r.nextInt(keys.size())];
-        /*int max = -1;
-        int kmax = 0;
-        for (int k : keys) {
-            int c = map.get(k);
-            if (c > max) {
-                max = c;
-                kmax = k;
-            }
-        }*/
-        res[res.length-nb] = kmax;
-        map.remove(kmax);
-        return getMaxColorsUsed(nb-1, map, res);
-
-    }
 
     public static void main(String[] args) throws IOException {
         // definition du nombre de couleurs max
@@ -67,12 +28,12 @@ public class MainSAE2 {
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(),  BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1
-        Map<Integer, Integer> map = getMapColors(img1);
+        Map<Integer, Integer> map = getArrayMapColors(img1);
 
         Set<Integer> keys = map.keySet();
         System.out.println("Nombre de couleurs : " + keys.size());
 
-        int[] colors = getMaxColorsUsed(nbCouleurs, map, new int[nbCouleurs]);
+        int[] colors = getMaxColorsUsed2(nbCouleurs, map, new int[nbCouleurs]);
 
 
         for (int i = 0; i < img1.getWidth(); i++) {
