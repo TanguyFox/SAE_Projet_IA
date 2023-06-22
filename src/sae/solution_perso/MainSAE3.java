@@ -5,17 +5,17 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.List;
 
 import  sae.distance;
 
-public class MainSAE1 {
+public class MainSAE3 {
+
+    public static int nbCouleurs = 5;
 
     public static Map<Integer, Integer> getMapColors(BufferedImage img) {
-        Map<Integer, Integer> res = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> res = new TreeMap<>();
 
         for (int i = 0; i < img.getWidth(); i++) {
             for (int j = 0; j < img.getHeight(); j++) {
@@ -33,41 +33,58 @@ public class MainSAE1 {
 
     }
     // methode recursive pour recuperé les ieme couleurs les plus utilisés de la map
-    public static int[] getMaxColorsUsed (int nb, Map<Integer, Integer> map, int[] res) {
+    public static int[] getMaxColorsUsed (int nb, Map<Integer, Integer> map, int[] res, int size) {
         if(nb == 0) {
             return res;
         }
+        System.out.println("---------");
+        System.out.println("taille : " + size);
         Set<Integer> keys = map.keySet();
+        List<Integer> listKey = new ArrayList<>(keys);
+        int indiceCouleur = res.length-nb;
+        System.out.println("indice couleur : " + indiceCouleur);
+        int indicePossible = size/nbCouleurs;
+        System.out.println("nombre d indice possible : " + indicePossible);
         int max = -1;
         int kmax = 0;
         for (int k : keys) {
-            int c = map.get(k);
-            if (c > max) {
-                max = c;
-                kmax = k;
+            int i = listKey.indexOf(k);
+            if (i >= indicePossible*indiceCouleur && i < indicePossible*indiceCouleur+indicePossible) {
+                int c = map.get(k);
+                if (c > max) {
+                    max = c;
+                    kmax = k;
+                    System.out.println(i);
+                    System.out.println(max);
+                }
             }
         }
-        res[res.length-nb] = kmax;
+        System.out.println("kmax : " + kmax);
+        System.out.println("R: " + distance.R(kmax));
+        System.out.println("R: " + distance.G(kmax));
+        System.out.println("R: " + distance.B(kmax));
+
+
+        res[indiceCouleur] = kmax;
         map.remove(kmax);
-        return getMaxColorsUsed(nb-1, map, res);
+        return getMaxColorsUsed(nb-1, map, res, size);
 
     }
 
     public static void main(String[] args) throws IOException {
-        // definition du nombre de couleurs max
-        int nbCouleurs = 5;
-
         // creation des bufferedImage
         BufferedImage img1 = ImageIO.read(new File("images_etudiants/originale.jpg"));
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(),  BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1
         Map<Integer, Integer> map = getMapColors(img1);
-
         Set<Integer> keys = map.keySet();
         System.out.println("Nombre de couleurs : " + keys.size());
+        for (int key : keys) {
+            System.out.println(key);
+        }
 
-        int[] colors = getMaxColorsUsed(nbCouleurs, map, new int[nbCouleurs]);
+        int[] colors = getMaxColorsUsed(nbCouleurs, map, new int[nbCouleurs], map.size());
 
 
         for (int i = 0; i < img1.getWidth(); i++) {
@@ -90,9 +107,10 @@ public class MainSAE1 {
                 img2.setRGB(i, j, colorMin);
             }
         }
-        ImageIO.write(img2, "jpg", new File("images_etudiants/resultSAE1.jpg"));
+        ImageIO.write(img2, "jpg", new File("images_etudiants/resultSAE3.jpg"));
 
     }
 
 
 }
+

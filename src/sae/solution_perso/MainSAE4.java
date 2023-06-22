@@ -15,54 +15,60 @@ import static sae.solution_perso.MainSAE1.getMapColors;
 public class MainSAE4 {
 
 
-    public static Map<Color, Boolean> getColor() {
-        Map<Color, Boolean> palette = new HashMap<>();
+    public static Map<Color, Boolean> palette = new HashMap<>();
+
+
+    public static int[] getMaxColorsUsed(int nb, Map<Integer, Integer> map, int[] res) {
+        if (nb == 0) {
+            return res;
+        }
+
+        int max = -1;
+        int kmax = 0;
+        Color color = null;
+
+        Set<Integer> keys = map.keySet();
+        for (int k : keys) {
+            int c = map.get(k);
+            if (c > max) {
+                double distanceMin = Double.MAX_VALUE;
+                Color colorMin = null;
+                for (Color cl : palette.keySet()) {
+                    if (!palette.get(cl)) {
+                        double distance = sae.distance.distanceCouleur(cl, new Color(k));
+                        if (distance < distanceMin) {
+                            distanceMin = distance;
+                            colorMin = cl;
+                        }
+                    }
+                }
+                if (colorMin != null) {
+                    palette.put(colorMin, true);
+                    max = c;
+                    kmax = k;
+                    color = colorMin;
+                }
+            }
+        }
+        if (color != null) {
+            System.out.println("couleur : " +color.getRGB());
+            res[res.length - nb] =  color.getRGB();
+            map.remove(kmax);
+        }
+
+        return getMaxColorsUsed(nb - 1, map, res);
+    }
+
+    public static void main(String[] args) throws IOException {
+        // definition du nombre de couleurs max
+        int nbCouleurs = 4;
+
         palette.put(Color.RED, false);
         palette.put(Color.GREEN, false);
         palette.put(Color.BLUE, false);
         palette.put(Color.YELLOW, false);
         palette.put(Color.ORANGE, false);
         palette.put(Color.WHITE, false);
-        //palette.put(Color.BLACK, false);
-
-        return palette;
-    }
-
-    public static int[] getMaxColorsUsed(int nb, Map<Integer, Integer> map, Map<Color, Boolean> palette, int[] res) {
-
-
-        if (nb == 0) {
-            System.out.println(res);
-            for (int i : res) {
-                System.out.println(new Color(i));
-            }
-            return res;
-        }
-        int max = -1;
-        Set<Integer> keys = map.keySet();
-        for (int k : keys) {
-            double distance = Double.MAX_VALUE;
-            for (Color cl : palette.keySet()) {
-                double distance2 = distance;
-                distance = sae.distance.distanceCouleur(cl, new Color(k));
-                if (distance < distance2) {
-                    if (!palette.get(cl)){
-                        System.out.println("color : "+cl);
-                        palette.put(cl, true);
-                        System.out.println(palette.size());
-                        res[res.length - nb] = cl.getRGB();
-                    }
-
-                }
-            }
-    }
-        return getMaxColorsUsed(nb-1, map, palette, res);
-
-}
-
-    public static void main(String[] args) throws IOException {
-        // definition du nombre de couleurs max
-        int nbCouleurs = 2;
 
         // creation des bufferedImage
         BufferedImage img1 = ImageIO.read(new File("images_etudiants/originale.jpg"));
@@ -70,12 +76,11 @@ public class MainSAE4 {
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1
         Map<Integer, Integer> map = getMapColors(img1);
-        Map<Color, Boolean> palette = getColor();
 
         Set<Integer> keys = map.keySet();
         System.out.println("Nombre de couleurs : " + keys.size());
 
-        int[] colors = getMaxColorsUsed(nbCouleurs, map, palette, new int[nbCouleurs]);
+        int[] colors = getMaxColorsUsed(nbCouleurs, map, new int[nbCouleurs]);
 
 
         for (int i = 0; i < img1.getWidth(); i++) {
