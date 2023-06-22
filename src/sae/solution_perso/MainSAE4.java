@@ -1,12 +1,12 @@
 package sae.solution_perso;
 
+import sae.distance;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-
-import sae.distance;
 
 import javax.imageio.ImageIO;
 
@@ -35,15 +35,14 @@ public class MainSAE4 {
                 Color colorMin = null;
                 for (Color cl : palette.keySet()) {
                     if (!palette.get(cl)) {
-                        double distance = sae.distance.distanceCouleur(cl, new Color(k));
-                        if (distance < distanceMin) {
-                            distanceMin = distance;
+                        double dist = distance.distanceCouleur(cl, new Color(k));
+                        if (dist < distanceMin) {
+                            distanceMin = dist;
                             colorMin = cl;
                         }
                     }
                 }
                 if (colorMin != null) {
-                    palette.put(colorMin, true);
                     max = c;
                     kmax = k;
                     color = colorMin;
@@ -51,8 +50,8 @@ public class MainSAE4 {
             }
         }
         if (color != null) {
-            System.out.println("couleur : " +color.getRGB());
             res[res.length - nb] =  color.getRGB();
+            palette.put(color, true);
             map.remove(kmax);
         }
 
@@ -63,12 +62,17 @@ public class MainSAE4 {
         // definition du nombre de couleurs max
         int nbCouleurs = 4;
 
-        palette.put(Color.RED, false);
         palette.put(Color.GREEN, false);
         palette.put(Color.BLUE, false);
         palette.put(Color.YELLOW, false);
         palette.put(Color.ORANGE, false);
         palette.put(Color.WHITE, false);
+        palette.put(Color.CYAN, false);
+        palette.put(Color.PINK, false);
+        palette.put(Color.lightGray, false);
+
+
+
 
         // creation des bufferedImage
         BufferedImage img1 = ImageIO.read(new File("images_etudiants/originale.jpg"));
@@ -81,6 +85,7 @@ public class MainSAE4 {
         System.out.println("Nombre de couleurs : " + keys.size());
 
         int[] colors = getMaxColorsUsed(nbCouleurs, map, new int[nbCouleurs]);
+        System.out.println(Arrays.toString(colors));;
 
 
         for (int i = 0; i < img1.getWidth(); i++) {
