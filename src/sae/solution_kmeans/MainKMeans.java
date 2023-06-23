@@ -15,9 +15,7 @@ import java.util.List;
 
 public class MainKMeans {
 
-    public static int nbCouleurs = 30;
-
-    public static int seuil = 100;
+    public static int nbCouleurs = 3;
 
     // retourne l'indice du tableau des couleurs centroides dont la distance est la plus proche de couleur
     private static int getIndiceProche(int couleur, int[] couleurs) {
@@ -56,7 +54,7 @@ public class MainKMeans {
     private static boolean TabComparator(int[] tab1, int[] tab2) {
         boolean res = true;
         for (int i = 0; i < tab1.length; i++) {
-            if (Math.abs(tab1[i] - tab2[i]) > seuil) {
+            if (tab1[i] != tab2[i]) {
                 // System.out.println(Math.abs(tab1[i] - tab2[i]));
                 res = false;
                 break;
@@ -67,7 +65,6 @@ public class MainKMeans {
         }
         return res;
     }
-
 
     private static void dessinerImage(BufferedImage img1, BufferedImage img2, int[] colors) throws IOException {
         for (int i = 0; i < img1.getWidth(); i++) {
@@ -88,15 +85,37 @@ public class MainKMeans {
         ImageIO.write(img2, "jpg", new File("images_etudiants/resultKMeans.jpg"));
     }
 
-    private static int[] addCouleur(int[] couleurs, Set<Integer> keys) {
-        int[] res = new int[couleurs.length+1];
-        for (int i = 0; i < couleurs.length; i++) {
-            res[i] = couleurs[i];
+    public static int[] getColorsWithKMeans (int nb, Set<Integer> keys) {
+        int[] couleurs = new int[nb];
+        for (int i = 0; i < nb; i++) {
+            Random r = new Random();
+            couleurs[i] = (int) keys.toArray()[r.nextInt(keys.size())];
         }
-        Random r = new Random();
-        res[couleurs.length] = (int) keys.toArray()[r.nextInt(keys.size())];
-        nbCouleurs++;
-        return res;
+
+        boolean stop = false;
+        while (!stop) {
+            // initialisations des groupes
+            List<List<Integer>> groupes = new ArrayList<>();
+            for (int i = 0; i < nb; i++) {
+                groupes.add(new ArrayList<Integer>());
+            }
+
+            // implementations des groupes en fonctions des distances couleur-centroide
+            for (int key : keys) {
+                int i = getIndiceProche(key, couleurs);
+                groupes.get(i).add(key);
+            }
+
+            int[] res = couleurs.clone();
+
+            // modifications des couleurs centroides en fonction des nouveau groupes
+            for (int i = 0; i < nb; i++) {
+                couleurs[i] = setCentroide(groupes.get(i));
+            }
+            //condition d'arret
+            stop = TabComparator(res, couleurs);
+        }
+        return couleurs;
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -110,46 +129,7 @@ public class MainKMeans {
         Set<Integer> keys = map.keySet();
 
         //initialisation des couleurs centroides
-        int[] couleurs = new int[nbCouleurs];
-        for (int i = 0; i < couleurs.length; i++) {
-            Random r = new Random();
-            couleurs[i] = (int) keys.toArray()[r.nextInt(keys.size())];
-        }
-
-
-        boolean stop = false;
-        int compteur = 0;
-        while (!stop && compteur < 10000) {
-            compteur++;
-            // initialisations des groupes
-            List<List<Integer>> groupes = new ArrayList<>();
-            for (int i = 0; i < nbCouleurs; i++) {
-                groupes.add(new ArrayList<Integer>());
-            }
-
-            // implementations des groupes en fonctions des distances couleur-centroide
-            for (int key : keys) {
-                int i = getIndiceProche(key, couleurs);
-                groupes.get(i).add(key);
-            }
-
-            int[] res = couleurs.clone();
-
-            // modifications des couleurs centroides en fonction des nouveau groupes
-            for (int i = 0; i < couleurs.length; i++) {
-                couleurs[i] = setCentroide(groupes.get(i));
-            }
-
-            if ((compteur)%100 == 0) {
-                System.out.println("iteration : " + compteur);
-            }
-            System.out.println("tab1 : " +Arrays.toString(res));
-            System.out.println("tab2 : " +Arrays.toString(couleurs));
-
-
-            //condition d'arret
-            stop = TabComparator(res, couleurs);
-        }
+        int[] couleurs = getColorsWithKMeans(nbCouleurs, keys);
 
         //dessine l'image
         dessinerImage(img1, img2, couleurs);
