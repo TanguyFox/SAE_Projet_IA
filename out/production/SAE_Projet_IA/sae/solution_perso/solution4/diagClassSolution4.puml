@@ -1,0 +1,41 @@
+@startuml
+
+@startuml
+'https://plantuml.com/class-diagram
+
+package sae {
+
+    class MapColors {
+        + {static} getHashMapColor(img : BufferedImage) : Map<Integer, Integer>
+        + {static} getTreeMapColor(img : BufferedImage) : Map<Integer, Integer>
+    }
+
+    note left{
+        getHashMapColor retourne une HashMap
+        getTreeMapColor retourne une TreeMap
+    }
+}
+
+    package sae.solution_perso.solution1{
+        class MaxColorsFromPartProvider {
+            - colors : Map<Integer, Integer>
+            + MaxColorsFromPartProvider(img : BufferedImage)
+            + getMaxColorsFromParts(nb: int, res : int[]) : int[]
+            + getColors() : Map<Integer, Integer>
+        }
+
+
+        note left {
+           L'attribut 'colors' est créer
+           grâce à la méthode getTreeMapColor
+           de MapColors
+        }
+    }
+}
+
+
+
+
+@enduml
+
+@enduml

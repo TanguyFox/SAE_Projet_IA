@@ -23,7 +23,7 @@ public class MainKMeans {
         int indiceMin = -1;
 
         for (int i = 0; i < couleurs.length; i++) {
-            double dist = distance.distanceCouleur(new Color(couleur), new Color(couleurs[i]));
+            double dist = Distance.distanceCouleur(new Color(couleur), new Color(couleurs[i]));
             if (dist < distMin) {
                 distMin = dist;
                 indiceMin = i;
@@ -73,7 +73,7 @@ public class MainKMeans {
                 int color = 0;
                 double distanceMin = Double.MAX_VALUE;
                 for (int c : colors) {
-                    double dist = distance.distanceCouleur(new Color(c), new Color(pixel));
+                    double dist = Distance.distanceCouleur(new Color(c), new Color(pixel));
                     if (dist < distanceMin) {
                         distanceMin = dist;
                         color = c;
@@ -119,6 +119,8 @@ public class MainKMeans {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
+
+
 
         // creation des bufferedImage
         BufferedImage img1 = ImageIO.read(new File("images_etudiants/originale.jpg"));
