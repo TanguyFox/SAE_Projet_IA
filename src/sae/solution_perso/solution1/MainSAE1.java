@@ -1,22 +1,14 @@
-package sae.solution_perso;
-
-import sae.distance;
+package sae.solution_perso.solution1;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
 
-import static sae.MapColors.getArrayMapColors;
-import static sae.MaxColorsUsed.getMaxColorsUsed2;
+import sae.Distance;
 
-public class MainSAE2 {
+public class MainSAE1 {
 
 
     public static void main(String[] args) throws IOException {
@@ -24,16 +16,13 @@ public class MainSAE2 {
         int nbCouleurs = 5;
 
         // creation des bufferedImage
-        BufferedImage img1 = ImageIO.read(new File("images_etudiants/originale.jpg"));
+        BufferedImage img1 = ImageIO.read(new File("images_diverses_small/animaux/ours.png"));
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(),  BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1
-        Map<Integer, Integer> map = getArrayMapColors(img1);
+        MaxColorsProvider rend = new MaxColorsProvider(img1);
 
-        Set<Integer> keys = map.keySet();
-        System.out.println("Nombre de couleurs : " + keys.size());
-
-        int[] colors = getMaxColorsUsed2(nbCouleurs, map, new int[nbCouleurs]);
+        int[] colors = rend.getMaxColorsUsed(nbCouleurs, new int[nbCouleurs]);
 
 
         for (int i = 0; i < img1.getWidth(); i++) {
@@ -42,7 +31,7 @@ public class MainSAE2 {
 
                 double[] distances = new double[nbCouleurs];
                 for (int k = 0; k < distances.length; k++) {
-                    distances[k] = distance.distanceCouleur(new Color(rgb),new Color(colors[k]));
+                    distances[k] = Distance.distanceCouleur(new Color(rgb),new Color(colors[k]));
                 }
 
                 double distancesMin = distances[0];
@@ -56,10 +45,9 @@ public class MainSAE2 {
                 img2.setRGB(i, j, colorMin);
             }
         }
-        ImageIO.write(img2, "jpg", new File("images_etudiants/resultSAE2.jpg"));
+        ImageIO.write(img2, "jpg", new File("test_image/resultSAE1.jpg"));
 
     }
 
 
 }
-

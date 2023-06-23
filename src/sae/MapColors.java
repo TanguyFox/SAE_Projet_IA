@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 public class MapColors {
 
-    public static Map<Integer, Integer> getArrayMapColors(BufferedImage img) {
+    public static Map<Integer, Integer> getHashMapColors(BufferedImage img) {
         Map<Integer, Integer> res = new HashMap<Integer, Integer>();
 
         for (int i = 0; i < img.getWidth(); i++) {
