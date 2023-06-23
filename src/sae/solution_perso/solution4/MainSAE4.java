@@ -44,12 +44,14 @@ public class MainSAE4 {
                 int rgb = img1.getRGB(i, j);
 
                 double[] distances = new double[nbCouleurs];
+                //récupération des distances entre la couleur d'un pixel et les couleurs du tableau
                 for (int k = 0; k < distances.length; k++) {
                     distances[k] = Distance.distanceCouleur(new Color(rgb),new Color(colors[k]));
                 }
 
                 double distancesMin = distances[0];
                 int colorMin = colors[0];
+                //Recherche de la distance minimal et récupération de la couleur associée
                 for (int k = 1; k < distances.length; k++) {
                     if(distances[k] < distancesMin) {
                         distancesMin = distances[k];

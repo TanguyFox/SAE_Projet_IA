@@ -36,11 +36,14 @@ public class MainSAE3 {
 
 
         Instant debut = Instant.now();
+
+        //récupération des distances entre la couleur d'un pixel et les couleurs du tableau
         for (int i = 0; i < img1.getWidth(); i++) {
             for (int j = 0; j < img1.getHeight(); j++) {
                 int rgb = img1.getRGB(i, j);
 
                 double[] distances = new double[nbCouleurs];
+                //Recherche de la distance minimal et récupération de la couleur associée
                 for (int k = 0; k < distances.length; k++) {
                     distances[k] = Distance.distanceCouleur(new Color(rgb), new Color(colors[k]));
                 }

@@ -9,12 +9,19 @@ import java.util.Set;
 
 public class RandomColorsProvider {
 
+    //Attribute that will contain the img colors
     private final Map<Integer, Integer> colors;
 
     public RandomColorsProvider(BufferedImage img){
         this.colors = MapColors.getHashMapColors(img);
     }
 
+    /**
+     * Method that returns nb random color from the image colors
+     * @param nb the number of color to seek
+     * @param res the tab that contains the representative color
+     * @return res
+     */
     public int[] getRandomColorsFromImg (int nb, int[] res) {
         if(nb == 0) {
             return res;

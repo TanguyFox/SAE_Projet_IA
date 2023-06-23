@@ -10,13 +10,18 @@ import java.util.Map;
 
 public class AvgColorsFromPartsProvider {
 
+    //Attribute that contains the colors of the original image
     private Map<Integer, Integer> imgColors;
 
     public AvgColorsFromPartsProvider(BufferedImage img){
         this.imgColors = MapColors.getTreeMapColors(img);
     }
 
-
+    /**
+     * Méthode qui sépare la HashMap en numParts attributes
+     * @param numParts le nombre de partie à découpé dans la HashMap
+     * @return La liste des parties
+     */
     public List<List<Integer>> splitColorMap(int numParts) {
         // Convertir la HashMap en une liste de paires (couleur (getRGB), nombre d'occurrences)
         List<Map.Entry<Integer, Integer>> colorList = new ArrayList<>(this.imgColors.entrySet());
@@ -47,6 +52,11 @@ public class AvgColorsFromPartsProvider {
     }
 
 
+    /**
+     * Méthode qui récupère la couleur moyenne d'une partie
+     * @param colors la partie
+     * @return la couleur moyenne de la partie
+     */
     private static Color calculateAverageColor(List<Integer> colors) {
         int totalRed = 0;
         int totalGreen = 0;
@@ -67,6 +77,11 @@ public class AvgColorsFromPartsProvider {
         return new Color(avgRed, avgGreen, avgBlue);
     }
 
+    /**
+     * Méthode qui retourne le tableau des couleurs moyenne des parties
+     * @param colorParts la liste des parties
+     * @return Le tableau de la couleur moyenne de chaque partie
+     */
     public int[] getColorsArray(List<List<Integer>> colorParts){
         int[] colors = new int[colorParts.size()];
         for (int i = 0; i < colorParts.size(); i++) {

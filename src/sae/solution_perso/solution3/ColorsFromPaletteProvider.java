@@ -11,12 +11,15 @@ import java.util.Set;
 
 public class ColorsFromPaletteProvider {
 
+    //Attribute that represents the colors palette
     private final Map<Color, Boolean> palette = new HashMap<>();
+    //Attribute that contains the colors of the image
     private final Map<Integer, Integer> imgColors;
 
     public ColorsFromPaletteProvider(BufferedImage img) {
         this.imgColors = MapColors.getHashMapColors(img);
 
+        //Initialize the palette
         this.palette.put(Color.GREEN, false);
         this.palette.put(Color.YELLOW, false);
         this.palette.put(Color.MAGENTA, false);
@@ -26,6 +29,12 @@ public class ColorsFromPaletteProvider {
 
     }
 
+    /**
+     * Method that give nb colors from the palettes that are close to the original color
+     * @param nb nb color to seek
+     * @param res the tab that contains the nb representative
+     * @return res
+     */
     public int[] getColorsFromPalette(int nb, int[] res) {
         if (nb == 0) {
             return res;

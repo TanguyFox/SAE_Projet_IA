@@ -15,10 +15,18 @@ import java.util.List;
 
 public class MainSAE5 {
 
-    public static int nbCouleurs = 100;
     public static void main(String[] args) throws IOException {
+
+        if(args.length != 2) {
+            System.out.println("Usage : java MainSAE5 file-to-img nbColor");
+            return;
+        }
+
+
+        int nbCouleurs = Integer.parseInt(args[1]);
+
         // creation des bufferedImage
-        BufferedImage img1 = ImageIO.read(new File("images_diverses_small/peinture/Klimt_small.png"));
+        BufferedImage img1 = ImageIO.read(new File(args[0]));
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1
@@ -31,11 +39,14 @@ public class MainSAE5 {
 
         Instant debut = Instant.now();
 
+        //récupération des distances entre la couleur d'un pixel et les couleurs du tableau
         for (int i = 0; i < img1.getWidth(); i++) {
             for (int j = 0; j < img1.getHeight(); j++) {
                 int rgb = img1.getRGB(i, j);
 
                 double[] distances = new double[nbCouleurs];
+
+                //Recherche de la distance minimal et récupération de la couleur associée
                 for (int k = 0; k < distances.length; k++) {
                     distances[k] = Distance.distanceCouleur(new Color(rgb), new Color(colors[k]));
                 }
