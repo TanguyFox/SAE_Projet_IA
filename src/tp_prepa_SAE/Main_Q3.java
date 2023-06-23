@@ -1,3 +1,5 @@
+package tp_prepa_SAE;
+
 import org.w3c.dom.css.RGBColor;
 
 import javax.imageio.ImageIO;
