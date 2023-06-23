@@ -18,7 +18,7 @@ import static sae.solution_kmeans.KMeans.getColorsWithKMeans;
 
 public class MainKMeans {
 
-    public static int nbCouleurs = 10;
+    public static int nbCouleurs = 100;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 

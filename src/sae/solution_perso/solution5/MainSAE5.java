@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MainSAE5 {
 
-    public static int nbCouleurs = 5;
+    public static int nbCouleurs = 100;
     public static void main(String[] args) throws IOException {
         // creation des bufferedImage
         BufferedImage img1 = ImageIO.read(new File("images_diverses_small/peinture/Klimt_small.png"));

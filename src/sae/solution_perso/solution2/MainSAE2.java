@@ -15,7 +15,7 @@ public class MainSAE2 {
 
     public static void main(String[] args) throws IOException {
         // definition du nombre de couleurs max
-        int nbCouleurs = 5;
+        int nbCouleurs = 100;
 
         // creation des bufferedImage
         BufferedImage img1 = ImageIO.read(new File("images_diverses_small/peinture/Klimt_small.png"));

@@ -18,13 +18,12 @@ public class ColorsFromPaletteProvider {
         this.imgColors = MapColors.getHashMapColors(img);
 
         this.palette.put(Color.GREEN, false);
-        this.palette.put(Color.BLUE, false);
         this.palette.put(Color.YELLOW, false);
-        this.palette.put(Color.ORANGE, false);
-        this.palette.put(Color.WHITE, false);
-        this.palette.put(Color.CYAN, false);
-        this.palette.put(Color.PINK, false);
-        this.palette.put(Color.lightGray, false);
+        this.palette.put(Color.MAGENTA, false);
+        this.palette.put(Color.orange, false);
+        this.palette.put(Color.LIGHT_GRAY, false);
+
+
     }
 
     public int[] getColorsFromPalette(int nb, int[] res) {

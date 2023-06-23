@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 
 public class MainSAE4 {
 
-    public static int nbCouleurs = 5;
+    public static int nbCouleurs = 50;
 
     public static void main(String[] args) throws IOException {
         // creation des bufferedImage
@@ -26,9 +26,10 @@ public class MainSAE4 {
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1
         MaxColorsFromPartsProvider mcfp = new MaxColorsFromPartsProvider(img1);
 
+        Instant debut = Instant.now();
+
         int[] colors = mcfp.getMaxColorsFromParts(nbCouleurs, new int[nbCouleurs], mcfp.getColors().size(), nbCouleurs);
 
-        Instant debut = Instant.now();
         for (int i = 0; i < img1.getWidth(); i++) {
             for (int j = 0; j < img1.getHeight(); j++) {
                 int rgb = img1.getRGB(i, j);
