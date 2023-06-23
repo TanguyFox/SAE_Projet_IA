@@ -4,20 +4,21 @@
 package sae {
 
     class MapColors {
-        + {static} getHashMapColor(img : BufferedImage) : Map<Integer, Integer>
-        + {static} getTreeMapColor(img : BufferedImage) : Map<Integer, Integer>
+        + {static} getHashMapColors(img : BufferedImage) : Map<Integer, Integer>
+        + {static} getTreeMapColors(img : BufferedImage) : Map<Integer, Integer>
     }
 
     note left{
-        getHashMapColor retourne une HashMap
-        getTreeMapColor retourne une TreeMap
+        getHashMapColors retourne une HashMap
+        getTreeMapColors retourne une TreeMap
     }
 }
 
-    package sae.solution_perso.solution2{
+    package sae.solution_perso.solution3{
         class ColorsFromPaletteProvider {
             - imgColors : Map<Integer, Integer>
             - palette : Map<Integer, Boolean>
+            + ColorsFromPaletteProvider(img : BufferedImage)
             + getColorsFromPalette(nb: int, res : int[]) : int[]
         }
 

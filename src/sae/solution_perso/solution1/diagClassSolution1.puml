@@ -4,26 +4,27 @@
 package sae {
 
     class MapColors {
-        + {static} getHashMapColor(img : BufferedImage) : Map<Integer, Integer>
-        + {static} getTreeMapColor(img : BufferedImage) : Map<Integer, Integer>
+        + {static} getHashMapColors(img : BufferedImage) : Map<Integer, Integer>
+        + {static} getTreeMapColors(img : BufferedImage) : Map<Integer, Integer>
     }
 
     note left{
-        getHashMapColor retourne une HashMap
-        getTreeMapColor retourne une TreeMap
+        getHashMapColors retourne une HashMap
+        getTreeMapColors retourne une TreeMap
     }
 }
 
     package sae.solution_perso.solution1{
         class MaxColorProvider {
             - colors : Map<Integer, Integer>
+            + MaxColorProvider(img : BufferedImage)
             + getMaxColorsUsed(nb: int, res : int[]) : int[]
         }
 
 
         note left {
            L'attribut 'colors' est créer
-           grâce à la méthode getHashMapColor
+           grâce à la méthode getHashMapColors
            de MapColors
         }
     }
