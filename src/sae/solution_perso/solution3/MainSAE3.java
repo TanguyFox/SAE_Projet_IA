@@ -16,12 +16,16 @@ public class MainSAE3 {
 
     public static void main(String[] args) throws IOException {
         // definition du nombre de couleurs max
-        int nbCouleurs = 5;
+        if(args.length != 2) {
+            System.out.println("Usage : java MainSAE3 file-to-img nbColor");
+            return;
+        }
 
-        Map<Color, Boolean> palette = new HashMap<>();
+
+        int nbCouleurs = Integer.parseInt(args[1]);
 
         // creation des bufferedImage
-        BufferedImage img1 = ImageIO.read(new File("images_diverses_small/peinture/Klimt_small.png"));
+        BufferedImage img1 = ImageIO.read(new File(args[0]));
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1

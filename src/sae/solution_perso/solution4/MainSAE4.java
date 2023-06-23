@@ -16,11 +16,20 @@ import javax.imageio.ImageIO;
 
 public class MainSAE4 {
 
-    public static int nbCouleurs = 50;
+
 
     public static void main(String[] args) throws IOException {
+
+        if(args.length != 2) {
+            System.out.println("Usage : java MainSAE4 file-to-img nbColor");
+            return;
+        }
+
+
+        int nbCouleurs = Integer.parseInt(args[1]);
+
         // creation des bufferedImage
-        BufferedImage img1 = ImageIO.read(new File("images_diverses_small/peinture/Klimt_small.png"));
+        BufferedImage img1 = ImageIO.read(new File(args[0]));
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(),  BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1

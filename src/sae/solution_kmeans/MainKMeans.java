@@ -18,12 +18,17 @@ import static sae.solution_kmeans.KMeans.getColorsWithKMeans;
 
 public class MainKMeans {
 
-    public static int nbCouleurs = 100;
-
     public static void main(String[] args) throws IOException, InterruptedException {
+        if(args.length != 2) {
+            System.out.println("Usage : java MainKMeans file-to-img nbColor");
+            return;
+        }
+
+
+        int nbCouleurs = Integer.parseInt(args[1]);
 
         // creation des bufferedImage
-        BufferedImage img1 = ImageIO.read(new File("images_diverses_small/peinture/Klimt_small.png"));
+        BufferedImage img1 = ImageIO.read(new File(args[0]));
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(),  BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs d'img1
