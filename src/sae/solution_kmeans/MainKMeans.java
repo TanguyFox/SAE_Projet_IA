@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MainKMeans {
 
-    public static int nbCouleurs = 5;
+    public static int nbCouleurs = 30;
 
     public static int seuil = 100;
 
@@ -35,18 +35,29 @@ public class MainKMeans {
     }
 
     public static int setCentroide(List<Integer> groupe) {
-        double res = 0;
+        double r = 0;
+        double g = 0;
+        double b = 0;
         for (int c : groupe) {
-            res += c;
+            r += distance.R(c);
+            g += distance.G(c);
+            b += distance.B(c);
+
         }
-        return (int) Math.round(res/groupe.size());
+        r /= groupe.size();
+        g /= groupe.size();
+        b /= groupe.size();
+
+        Color c = new Color((int) Math.round(r), (int) Math.round(g), (int) Math.round(b));
+        return c.getRGB();
+
     }
 
     private static boolean TabComparator(int[] tab1, int[] tab2) {
         boolean res = true;
         for (int i = 0; i < tab1.length; i++) {
             if (Math.abs(tab1[i] - tab2[i]) > seuil) {
-                System.out.println(Math.abs(tab1[i] - tab2[i]));
+                // System.out.println(Math.abs(tab1[i] - tab2[i]));
                 res = false;
                 break;
             }
@@ -99,13 +110,11 @@ public class MainKMeans {
         Set<Integer> keys = map.keySet();
 
         //initialisation des couleurs centroides
-//        int[] couleurs = new int[nbCouleurs];
-//        for (int i = 0; i < couleurs.length; i++) {
-//            Random r = new Random();
-//            couleurs[i] = (int) keys.toArray()[r.nextInt(keys.size())];
-//        }
-
-        int[] couleurs = MaxColorsUsed.getMaxColorsUsed3(nbCouleurs, map, new int[nbCouleurs], map.size(), nbCouleurs);
+        int[] couleurs = new int[nbCouleurs];
+        for (int i = 0; i < couleurs.length; i++) {
+            Random r = new Random();
+            couleurs[i] = (int) keys.toArray()[r.nextInt(keys.size())];
+        }
 
 
         boolean stop = false;
@@ -134,6 +143,9 @@ public class MainKMeans {
             if ((compteur)%100 == 0) {
                 System.out.println("iteration : " + compteur);
             }
+            System.out.println("tab1 : " +Arrays.toString(res));
+            System.out.println("tab2 : " +Arrays.toString(couleurs));
+
 
             //condition d'arret
             stop = TabComparator(res, couleurs);
