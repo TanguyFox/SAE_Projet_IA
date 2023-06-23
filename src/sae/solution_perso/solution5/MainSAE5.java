@@ -7,16 +7,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.List;
 
 
 public class MainSAE5 {
 
-    public static int nbCouleurs = 2;
+    public static int nbCouleurs = 5;
     public static void main(String[] args) throws IOException {
         // creation des bufferedImage
-        BufferedImage img1 = ImageIO.read(new File("images_etudiants/originale.jpg"));
+        BufferedImage img1 = ImageIO.read(new File("images_diverses_small/peinture/Klimt_small.png"));
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1
@@ -27,6 +29,7 @@ public class MainSAE5 {
 
         int[] colors = acfpp.getColorsArray(colorParts);
 
+        Instant debut = Instant.now();
 
         for (int i = 0; i < img1.getWidth(); i++) {
             for (int j = 0; j < img1.getHeight(); j++) {
@@ -50,6 +53,8 @@ public class MainSAE5 {
         }
         ImageIO.write(img2, "jpg", new File("test_image/resultSAE5.jpg"));
 
+        long duree = Duration.between(debut, Instant.now()).toMillis();
+        System.out.println("Image calculée en :" + duree + " ms");
     }
 
 

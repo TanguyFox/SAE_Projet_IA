@@ -7,16 +7,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 
 public class MainSAE2 {
 
     public static void main(String[] args) throws IOException {
         // definition du nombre de couleurs max
-        int nbCouleurs = 10;
+        int nbCouleurs = 5;
 
         // creation des bufferedImage
-        BufferedImage img1 = ImageIO.read(new File("images_diverses_small/animaux/ours.png"));
+        BufferedImage img1 = ImageIO.read(new File("images_diverses_small/peinture/Klimt_small.png"));
         BufferedImage img2 = new BufferedImage(img1.getWidth(), img1.getHeight(),  BufferedImage.TYPE_3BYTE_BGR);
 
         // recuperation des couleurs utiliser ainsi que leurs nombres de fois dans img1
@@ -25,6 +27,7 @@ public class MainSAE2 {
         int[] colors = rcp.getRandomColorsFromImg(nbCouleurs, new int[nbCouleurs]);
 
 
+        Instant debut = Instant.now();
         for (int i = 0; i < img1.getWidth(); i++) {
             for (int j = 0; j < img1.getHeight(); j++) {
                 int rgb = img1.getRGB(i, j);
@@ -46,6 +49,9 @@ public class MainSAE2 {
             }
         }
         ImageIO.write(img2, "jpg", new File("test_image/resultSAE2.jpg"));
+
+        long duree = Duration.between(debut, Instant.now()).toMillis();
+        System.out.println("Image calculée en :" + duree + " ms"); //161ms
     }
 
 
